@@ -1,0 +1,1 @@
+Use command 'npm run dev' to run the application

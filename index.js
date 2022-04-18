@@ -7,4 +7,6 @@ app.listen(port, () => {            //server starts listening for any attempts f
     console.log(`Now listening on port ${port}`); 
 });
 
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 app.use(routes);
