@@ -7,13 +7,15 @@
     <title>Chat</title>
 </head>
 <body>
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
-
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-
-    <button type="submit">Login</button>
-    <a href="/signup">Sign Up</a>
+    <form action="/" method="POST">
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Enter Username" name="email" required>
+    
+        <label for="password"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+    
+        <button type="submit">Login</button>
+        <a href="/signup">Sign Up</a>
+    </form>
 </body>
 </html>
