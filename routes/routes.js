@@ -6,6 +6,7 @@ var User = require('../models/users');
 
 var index = path.join(__dirname, '../views/index.ejs')
 var signup = path.join(__dirname, '../views/signup.ejs')
+var chatroom = path.join(__dirname, '../views/chatroom.ejs')
 
 router.get('/', (req, res) => {
     res.render(index);
@@ -18,9 +19,9 @@ router.post('/', function (req, res, next) {
 			
 			if(data.password==req.body.password){
 				//console.log("Done Login");
-				req.session.username = data._id;
+				req.session.userId = data._id;
 				//console.log(req.session.userId);
-				res.send({"Success":"Success!"});
+				res.render(chatroom, {username:data.username});
 				
 			}else{
 				res.send({"Success":"Wrong password!"});
@@ -48,4 +49,17 @@ router.post('/signup',(req, res, next)=>{
         return res.redirect('/');
     }
 )
+router.get('/logout', function (req, res, next) {
+	console.log("logout")
+	if (req.session) {
+    // delete session object
+    req.session.destroy(function (err) {
+    	if (err) {
+    		return next(err);
+    	} else {
+    		return res.redirect('/');
+    	}
+    });
+}
+});
 module.exports = router;
