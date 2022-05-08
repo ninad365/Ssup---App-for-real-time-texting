@@ -1,17 +1,13 @@
 
 var mongoose = require('mongoose');
-var chatSchema = mongoose.Schema({
-	message: {
-		type: String
-	},
-	sender: {
-		type: String
-	}
-	},
-	{
-		timestamps: true
-	}
-);
+const Schema = mongoose.Schema;
 
-var Chat = mongoose.model('Chat', chatSchema);
-module.exports = Chat;
+var chatSchema = new Schema({
+	message: { type: String },
+	sender: { type : String },
+},
+{
+	timestamps: true
+});
+
+module.exports = mongoose.model('Chat', chatSchema);

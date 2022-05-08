@@ -1,6 +1,7 @@
 var express = require('express');
+const chats = require('../models/chats');
 const router = express();
-var passport = require('passport');
+var Chat = require('../models/chats');
 path = require('path');
 var User = require('../models/users');
 
@@ -20,6 +21,7 @@ router.post('/', function (req, res, next) {
 			if(data.password==req.body.password){
 				//console.log("Done Login");
 				req.session.userId = data._id;
+				req.session.username = data.username;
 				//console.log(req.session.userId);
 				res.render(chatroom, {username:data.username});
 				
@@ -49,6 +51,32 @@ router.post('/signup',(req, res, next)=>{
         return res.redirect('/');
     }
 )
+
+router.get('/chatroom',(req, res, next)=>{
+		cha = Chat.find((err, docs)=>{
+			if (!err) {
+				console.log(docs);
+			} else {
+				console.log('Failed to retrieve the chat: ' + err);
+			}
+		});
+		res.render(chatroom, {username:req.session.username});
+	}
+)
+
+router.post('/chatroom',(req, res, next)=>{
+		var message = req.body.message;
+		console.log(message);
+		console.log(req.session.userId);
+		var newChat = new Chat({
+			message: message,
+			sender: req.session.userId,
+		});
+		newChat.save(next);
+		return res.redirect('/chatroom');
+	}
+)
+
 router.get('/logout', function (req, res, next) {
 	console.log("logout")
 	if (req.session) {
@@ -62,4 +90,5 @@ router.get('/logout', function (req, res, next) {
     });
 }
 });
+
 module.exports = router;

@@ -8,6 +8,16 @@
 </head>
 <body>
     <h1>Chatroom <%= username %></h1>
+
+    <form action="/chatroom" method="POST">
+        <div>
+            <input id="message" name="message" placeholder="Type your message here..." autocomplete ="off" />
+        </div>
+            <button type="submit">
+               Send
+            </button>
+      </form>
+
     <a href="/logout">Log out</a>
 </body>
 </html>
