@@ -6,7 +6,7 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var session = require('express-session');
 var MongoStore = require('connect-mongo');
-
+var socket = require('socket.io');
 
 mongoose.connect("mongodb://localhost:27017/chat-app", {
     useNewUrlParser: true,
@@ -34,7 +34,15 @@ app.set("view engine", "ejs");
 
 app.use(routes);
 
-app.listen(port, () => {            //server starts listening for any attempts from a client to connect at port: {port}
+var server = app.listen(port, () => {            //server starts listening for any attempts from a client to connect at port: {port}
   console.log(`Now listening on port ${port}`); 
 });
 
+let io = socket(server)
+io.on('connection', (socket) => {
+  console.log("User connected: " + socket.id);
+  // socket.on("send_message", (data) => {
+  //   console.log(data);
+  //   socket.emit("receive_message", data.content);
+  // });
+});

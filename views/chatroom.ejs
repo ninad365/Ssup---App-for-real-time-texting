@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatroom</title>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
 </head>
 <body>
     <h1>Chatroom <%= username %></h1>
@@ -13,11 +14,15 @@
         <div>
             <input id="message" name="message" placeholder="Type your message here..." autocomplete ="off" />
         </div>
-            <button type="submit">
+        <button type="submit">
                Send
             </button>
       </form>
 
     <a href="/logout">Log out</a>
+    <script>
+        const socket = io.connect('http://localhost:4000')
+        socket.on('connection')
+    </script>
 </body>
 </html>

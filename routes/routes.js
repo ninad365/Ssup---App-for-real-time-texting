@@ -53,13 +53,13 @@ router.post('/signup',(req, res, next)=>{
 )
 
 router.get('/chatroom',(req, res, next)=>{
-		cha = Chat.find((err, docs)=>{
-			if (!err) {
-				console.log(docs);
-			} else {
-				console.log('Failed to retrieve the chat: ' + err);
-			}
-		});
+		// cha = Chat.find((err, docs)=>{
+		// 	if (!err) {
+		// 		console.log(docs);
+		// 	} else {
+		// 		console.log('Failed to retrieve the chat: ' + err);
+		// 	}
+		// });
 		res.render(chatroom, {username:req.session.username});
 	}
 )
