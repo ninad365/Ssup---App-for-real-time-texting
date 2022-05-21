@@ -41,9 +41,6 @@ var server = app.listen(port, () => {            //server starts listening for a
 
 let io = socket(server)
 io.on('connection', (socket) => {
-  console.log("User connected: " + socket.id);
-  console.log("User connected: " + socket.sessionid);
-  
   socket.on('message', (data) => {
     var newChat = new Chat({
 			message: data.message,

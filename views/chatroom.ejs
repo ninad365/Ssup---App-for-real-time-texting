@@ -24,20 +24,20 @@
     <script src="https://cdn.jsdelivr.net/gh/rexeze/formatTimeStamp/src/index-cdn.js"></script>
     <script>
         const socket = io.connect('http://localhost:4000')
-socket.on('connection')
+        socket.on('connection')
 
-    socket.on("message", (data) => {
-        console.log(data.message);
-        let messages = document.getElementById("messages");
-        let li = document.createElement("li");
-        li.appendChild(document.createTextNode(data.message));
-        messages.appendChild(li);        
-    });
-    
-    const sendMessage = () => {
-        socket.emit('message', {message:$("#message").val(), sender: "uhbi"} )
-        $("#message").val("");
-    };
+        socket.on("message", (data) => {
+            console.log(data.sender)
+            let messages = document.getElementById("messages");
+            let li = document.createElement("li");
+            li.appendChild(document.createTextNode("From:"+data.sender +" "+data.message));
+            messages.appendChild(li);        
+        });
+        
+        const sendMessage = () => {
+            socket.emit('message', {message:$("#message").val(), sender: "uhbi"} )
+            $("#message").val("");
+        };
     </script>
 </body>
 </html>
