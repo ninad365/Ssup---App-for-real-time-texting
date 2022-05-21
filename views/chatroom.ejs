@@ -9,20 +9,35 @@
 </head>
 <body>
     <h1>Chatroom <%= username %></h1>
-
-    <form action="/chatroom" method="POST">
+    <ul id ="messages" class="messages">
+        
+    </ul>
         <div>
             <input id="message" name="message" placeholder="Type your message here..." autocomplete ="off" />
         </div>
-        <button type="submit">
+        <button onclick="sendMessage()">
                Send
-            </button>
-      </form>
+        </button>
 
     <a href="/logout">Log out</a>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/rexeze/formatTimeStamp/src/index-cdn.js"></script>
     <script>
         const socket = io.connect('http://localhost:4000')
-        socket.on('connection')
+socket.on('connection')
+
+    socket.on("message", (data) => {
+        console.log(data.message);
+        let messages = document.getElementById("messages");
+        let li = document.createElement("li");
+        li.appendChild(document.createTextNode(data.message));
+        messages.appendChild(li);        
+    });
+    
+    const sendMessage = () => {
+        socket.emit('message', {message:$("#message").val(), sender: "uhbi"} )
+        $("#message").val("");
+    };
     </script>
 </body>
 </html>

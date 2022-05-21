@@ -7,6 +7,7 @@ var mongoose = require("mongoose");
 var session = require('express-session');
 var MongoStore = require('connect-mongo');
 var socket = require('socket.io');
+var Chat = require('./models/chats');
 
 mongoose.connect("mongodb://localhost:27017/chat-app", {
     useNewUrlParser: true,
@@ -41,8 +42,14 @@ var server = app.listen(port, () => {            //server starts listening for a
 let io = socket(server)
 io.on('connection', (socket) => {
   console.log("User connected: " + socket.id);
-  // socket.on("send_message", (data) => {
-  //   console.log(data);
-  //   socket.emit("receive_message", data.content);
-  // });
+  console.log("User connected: " + socket.sessionid);
+  
+  socket.on('message', (data) => {
+    var newChat = new Chat({
+			message: data.message,
+			sender: data.sender,
+		});
+		newChat.save();
+    socket.broadcast.emit('message', data);
+  })
 });
