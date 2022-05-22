@@ -8,7 +8,8 @@
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
 </head>
 <body>
-    <h1>Chatroom <%= username %></h1>
+    <h1>Chatroom></h1>
+    <div class="title" id = "userName1"> <%= username %> </div>
     <ul id ="messages" class="messages">
         
     </ul>
@@ -35,7 +36,7 @@
         });
         
         const sendMessage = () => {
-            socket.emit('message', {message:$("#message").val(), sender: "uhbi"} )
+            socket.emit('message', {message:$("#message").val(), sender: $("#userName1").text()} )
             $("#message").val("");
         };
     </script>

@@ -47,6 +47,6 @@ io.on('connection', (socket) => {
 			sender: data.sender,
 		});
 		newChat.save();
-    socket.broadcast.emit('message', data);
+    io.sockets.emit('message', data);
   })
 });
