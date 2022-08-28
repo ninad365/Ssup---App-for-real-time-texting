@@ -23,7 +23,13 @@ router.post('/', function (req, res, next) {
 				req.session.userId = data._id;
 				req.session.username = data.username;
 				//console.log(req.session.userId);
-				res.render(chatroom, {username:data.username});
+				const projection = { message: 1 };
+				const cursor = Chat.find({});
+				console.log(cursor);
+				res.render(chatroom, {username:data.username, chats:cursor});
+				// Chat.find({}).projection({_id: 1, name: 1}).then(chat => {
+				// 	res.render(chatroom, {username:data.username, chats:chat});
+				// });
 				
 			}else{
 				res.send({"Success":"Wrong password!"});
@@ -53,13 +59,8 @@ router.post('/signup',(req, res, next)=>{
 )
 
 router.get('/chatroom',(req, res, next)=>{
-		// cha = Chat.find((err, docs)=>{
-		// 	if (!err) {
-		// 		console.log(docs);
-		// 	} else {
-		// 		console.log('Failed to retrieve the chat: ' + err);
-		// 	}
-		// });
+	console.log("chatroom");
+	
 		res.render(chatroom, {username:req.session.username});
 	}
 )
