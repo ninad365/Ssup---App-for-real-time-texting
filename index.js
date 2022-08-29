@@ -10,43 +10,43 @@ var socket = require('socket.io');
 var Chat = require('./models/chats');
 
 mongoose.connect("mongodb://localhost:27017/chat-app", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,  
-  })
-  .then(()=>{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => {
     console.log("DB connected successfully!!");
   })
-  .catch((err)=>{
+  .catch((err) => {
     console.log(err);
   });
 
-  app.use(session({
-    secret: 'work hard',
-    resave: true,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: "mongodb://localhost:27017/chat-app"
+app.use(session({
+  secret: 'work hard',
+  resave: true,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: "mongodb://localhost:27017/chat-app"
   })
-  }));
+}));
 
-  app.use(bodyParser.urlencoded({ extended: false })); // bodyparser before routes
+app.use(bodyParser.urlencoded({ extended: false })); // bodyparser before routes
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.use(routes);
 
 var server = app.listen(port, () => {            //server starts listening for any attempts from a client to connect at port: {port}
-  console.log(`Now listening on port ${port}`); 
+  console.log(`Now listening on port ${port}`);
 });
 
 let io = socket(server)
 io.on('connection', (socket) => {
   socket.on('message', (data) => {
     var newChat = new Chat({
-			message: data.message,
-			sender: data.sender,
-		});
-		newChat.save();
+      message: data.message,
+      sender: data.sender,
+    });
+    newChat.save();
     io.sockets.emit('message', data);
   })
 });

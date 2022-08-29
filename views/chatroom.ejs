@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,18 +8,26 @@
     <title>Chatroom</title>
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
 </head>
+
 <body>
     <h1>Chatroom</h1>
-    <div class="title" id = "userName1"> <%= username %> </div>
-    <ul id ="messages" class="messages">
-    <p><%= chats %></p>
+    <div class="title" id="userName1">
+        <%= username %>
+    </div>
+    <ul id="messages" class="messages">
+        <% chats.forEach((chat)=> { %>
+            <li>
+                <%= "From:" + chat.sender + chat.message %>
+            </li>
+            <hr />
+        <% }) %>
     </ul>
-        <div>
-            <input id="message" name="message" placeholder="Type your message here..." autocomplete ="off" />
-        </div>
-        <button onclick="sendMessage()">
-               Send
-        </button>
+    <div>
+        <input id="message" name="message" placeholder="Type your message here..." autocomplete="off" />
+    </div>
+    <button onclick="sendMessage()">
+        Send
+    </button>
 
     <a href="/logout">Log out</a>
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -31,14 +40,15 @@
             console.log(data.sender)
             let messages = document.getElementById("messages");
             let li = document.createElement("li");
-            li.appendChild(document.createTextNode("From:"+data.sender +" "+data.message));
-            messages.appendChild(li);        
+            li.appendChild(document.createTextNode("From:" + data.sender + " " + data.message));
+            messages.appendChild(li);
         });
-        
+
         const sendMessage = () => {
-            socket.emit('message', {message:$("#message").val(), sender: $("#userName1").text()} )
+            socket.emit('message', { message: $("#message").val(), sender: $("#userName1").text() })
             $("#message").val("");
         };
     </script>
 </body>
+
 </html>
